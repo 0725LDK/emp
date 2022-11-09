@@ -30,7 +30,14 @@ table
 </style>
 </head>
 <body>
+
+	
+	<!-- 메뉴 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
+	</div>
 	<br>
+	
 	<form class="container box" action="<%=request.getContextPath()%>/dept/insertDeptAction.jsp" method="post">
 		<table class="table">
 			<tr>
@@ -53,6 +60,16 @@ table
 	<div style="float:right;">
 		<button type="submit">추가 하기</button>
 	</div>
+	<!-- msg 파라메타 값이 있으면 출력 -->
+	<%
+		if(request.getParameter("msg")!= null)
+		{
+	%>
+		
+			<div><%=request.getParameter("msg") %></div>
+	<%		
+		}
+	%>
 	</form>
 </body>
 </html>

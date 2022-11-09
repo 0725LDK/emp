@@ -25,7 +25,7 @@ a:hover
 	<h1 class="text-center">관리자 메뉴</h1>
 	<div class="text-center">
 		<div style = "padding: 5px 0px 0px 0px;"><a href="<%=request.getContextPath()%>/dept/deptList.jsp">1. 부서관리</a><br></div>
-		<div style = "padding: 5px 0px 0px 0px;"><a href="<%=request.getContextPath()%>/dept/deptList.jsp">2. 사원관리</a><br></div>
+		<div style = "padding: 5px 0px 0px 0px;"><a href="<%=request.getContextPath()%>/emp/empList.jsp">2. 사원관리</a><br></div>
 		<div style = "padding: 5px 0px 0px 0px;"><a href="<%=request.getContextPath()%>/dept/deptList.jsp">3. 상품관리</a><br></div>
 		<div style = "padding: 5px 0px 0px 0px;"><a href="<%=request.getContextPath()%>/dept/deptList.jsp">4. 고객관리</a><br></div>
 	</div>

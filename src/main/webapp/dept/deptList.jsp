@@ -49,6 +49,10 @@ tr,td
 
 </head>
 <body>
+	<!-- 메뉴 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
+	</div>
 	
 	<br>
 	<div class="container">

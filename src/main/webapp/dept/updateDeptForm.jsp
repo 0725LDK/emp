@@ -1,5 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.sql.*" %>
+<%@ page import="vo.*"%>
 
+<%
+ 	String deptNo = request.getParameter("deptNo");
+ 	//String deptName = request.getParameter("deptName");
+	if(deptNo==null)
+	{
+		response.sendRedirect(request.getContextPath()+"/dept/deptList.jsp");
+		return;
+	}
+	 
+	Class.forName("org.mariadb.jdbc.Driver");
+	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
+	String sql =  "SELECT dept_name deptName FROM departments WHERE dept_no = ?";
+	PreparedStatement stmt = conn.prepareStatement(sql);
+	
+	 stmt.setString(1, deptNo);
+	 ResultSet rs = stmt.executeQuery(); 
+
+	 Department dept = null;   
+	   if (rs.next()) { // ResultSet의 API(사용방법)를 모른다면 사용할 수 없는 반복문
+	      dept = new Department();
+	      dept.deptNo = deptNo;
+	      dept.deptName = rs.getString("deptName");
+	   }
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +57,20 @@ table
 </style>
 </head>
 <body>
+
+	<%
+		if(request.getParameter("msg")!= null)
+		{
+	%>
+		
+			<div><%=request.getParameter("msg") %></div>
+	<%		
+		}
+	%>
+	<!-- 메뉴 -->
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
+	</div>
 	<form  class="container box" action="<%=request.getContextPath()%>/dept/updateDeptAction.jsp" method="post">
 		
 		<table class="table">
@@ -41,18 +82,21 @@ table
 			
 			<tr>
 				<td>부서 번호</td>
-				<td><input type="text" name="deptNo" value="<%=request.getParameter("deptNo")%>" readonly="readonly"></td>
+				<td><input type="text" name="deptNo" value="<%=dept.deptNo%>" readonly="readonly"></td>
 			</tr>
 			
 			<tr>
 				<td>부서 명</td>
-				<td><input type="text" name="deptName"></td>
+				<td><input type="text" name="deptName" value="<%=dept.deptName%>"></td>
 			</tr>
 		
 		</table>
 	<div style="float:right;">
+	<!-- msg 파라메타 값이 있으면 출력 -->
+	
 		<button type="submit">수정 완료</button>
 	</div>
+	
 	</form>
 </body>
 </html>
