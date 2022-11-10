@@ -65,8 +65,7 @@ table
 		if(request.getParameter("msg")!= null)
 		{
 	%>
-		
-			<div><%=request.getParameter("msg") %></div>
+			<div><span style="color:red">경고! </span><%=request.getParameter("msg") %></div>
 	<%		
 		}
 	%>

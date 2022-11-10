@@ -58,15 +58,7 @@ table
 </head>
 <body>
 
-	<%
-		if(request.getParameter("msg")!= null)
-		{
-	%>
-		
-			<div><%=request.getParameter("msg") %></div>
-	<%		
-		}
-	%>
+	
 	<!-- 메뉴 -->
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
@@ -91,11 +83,21 @@ table
 			</tr>
 		
 		</table>
-	<div style="float:right;">
-	<!-- msg 파라메타 값이 있으면 출력 -->
-	
-		<button type="submit">수정 완료</button>
-	</div>
+		<div style="float:left;">
+			<%
+				if(request.getParameter("msg")!= null)
+			{
+			%>
+					<div><span style="color:red">경고! </span><%=request.getParameter("msg") %></div>
+			<%		
+			}
+			%>
+		</div>
+		<div style="float:right;">
+		<!-- msg 파라메타 값이 있으면 출력 -->
+		
+			<button type="submit">수정 완료</button>
+		</div>
 	
 	</form>
 </body>

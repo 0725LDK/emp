@@ -11,11 +11,10 @@
 	String deptName = request.getParameter("deptName");
 	
 	//안전장치 코드
-	if(request.getParameter("deptNo")==deptNo && request.getParameter("deptName") == "" || 
-			request.getParameter("deptNo")==deptNo && request.getParameter("deptName") == null)
+	if(deptName == null || deptName.equals("") )
 	{	
-		String msg = URLEncoder.encode("부서번호와 부서이름 입력 필요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/dept/updateDeptForm.jsp?msg="+msg);
+		String msg = URLEncoder.encode("부서이름 입력 필요", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/dept/updateDeptForm.jsp?msg="+msg+"&deptNo="+deptNo);
 		return;
 	} 
 	
@@ -32,7 +31,7 @@
 	if(rs.next())
 	{
 		String msg = URLEncoder.encode("중복된 부서명", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/dept/updateDeptForm.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/dept/updateDeptForm.jsp?msg="+msg+"&deptNo="+deptNo);
 		return;
 	}
 	
