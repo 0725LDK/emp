@@ -16,10 +16,10 @@
 	String sql =  "SELECT dept_name deptName FROM departments WHERE dept_no = ?";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	
-	 stmt.setString(1, deptNo);
-	 ResultSet rs = stmt.executeQuery(); 
+	stmt.setString(1, deptNo);
+	ResultSet rs = stmt.executeQuery(); 
 
-	 Department dept = null;   
+	Department dept = null;   
 	   if (rs.next()) { // ResultSet의 API(사용방법)를 모른다면 사용할 수 없는 반복문
 	      dept = new Department();
 	      dept.deptNo = deptNo;

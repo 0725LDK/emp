@@ -60,21 +60,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+
+a 
+	{
+  		text-decoration: none;
+	}
+tr,td
+	{
+		text-align: center;
+	}
+.inner-div 
+	{
+	  width : 300px;
+	  height : 30px;
+	  margin: auto;
+	}
+</style>
+
 </head>
 <body>
 	<!-- 메뉴 -->
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
 	</div>
-	<h1>사원목록 출력</h1>
 	
-	<div>현재페이지 : <%=currentPage %></div>
 	
-	<table>
-		<tr>
-			<td>사원번호</td>
-			<td>퍼스트네임</td>
-			<td>라스트네임</td>
+	<div class="container">
+	<h1>사원 목록</h1>
+	<table class="table table table-hover">
+		<tr class="table-warning">
+			<td>사원 번호</td>
+			<td>성</td>
+			<td>이름</td>
 		</tr>
 		<%
 			for(Employee e : empList)
@@ -82,37 +103,51 @@
 		%>
 				<tr>
 					<td><%=e.empNo %></td>
-					<td><%=e.firstName %></td>
 					<td><%=e.lastName %></td>
+					<td><%=e.firstName %></td>
 				</tr>
 		<%		
 				
 			}
 		%>
-
-
-	
 	</table>
 	
-	<div><!-- 페이지 넘기는 목록 출력 -->
-		<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=1">처음으로</a>
-		<%
-			if(currentPage>1)
-			{
-		%>
-				<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
-		<%
-			}
-			if(currentPage<lastPage)
-			{
-		%>
-				<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
-		<%
-			}
-		%>
-		<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=<%=lastPage %>">마지막으로</a>
-	
+		<div class="inner-div">
+			<!-- 페이지 넘기는 목록 출력 -->
+			<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=1">처음으로</a>
+			<%
+				if(currentPage>1)
+				{
+			%>
+					<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+			<%
+				}
+				else if(currentPage==1)
+				{
+			%>	
+					<span>이전</span>
+			<%		
+				}
+			%>
+					<span> [ <%=currentPage %> ] </span>
+			<%
+				if(currentPage<lastPage)
+				{
+			%>
+					<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<%
+				}
+				else if(currentPage==lastPage)
+				{
+			%>		
+					<span>다음</span>	
+			<%		
+				}
+			%>
+			<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=<%=lastPage %>">마지막으로</a>
+			
+		</div>
+		
 	</div>
-	
 </body>
 </html>

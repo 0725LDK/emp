@@ -56,7 +56,7 @@ tr,td
 	
 	<br>
 	<div class="container">
-	<h1>DEPT LIST</h1>
+	<h1>부서 목록</h1>
 		<table class="table table table-hover">
 			<tr class="table-warning">
 				<td>부서번호</td>
