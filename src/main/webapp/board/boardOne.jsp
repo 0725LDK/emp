@@ -27,6 +27,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+
+a 
+	{
+  		text-decoration: none;
+	}
+tr,td
+	{
+		text-align: center;
+	}
+.inner-div 
+	{
+	  width : 300px;
+	  height : 30px;
+	  margin: auto;
+	}
+</style>
+
 </head>
 <body>
 	<!-- 메뉴 partial jsp 구성 -->
@@ -34,10 +55,11 @@
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
 	</div>
 	
+	<div class="container">
 	<h1>게시글 상세보기</h1>
-	<table border="1">
-		<tr>
-			<td>번호</td>
+	<table  class="table table-hover">
+		<tr class="table-warning">
+			<td style="width: 25%">번호</td>
 			<td><%=board.boardNo%></td>
 		</tr>
 		<tr>
@@ -57,8 +79,11 @@
 			<td><%=board.createdate%></td>
 		</tr>
 	</table>
-		<a href="<%=request.getContextPath()%>/board/updateBoardForm.jsp?boardNo=<%=boardNo%>&boardWriter=<%=board.boardWriter%>&createdate=<%=board.createdate%>">수정</a>
-		<a href="<%=request.getContextPath()%>/board/deleteBoardForm.jsp?boardNo=<%=boardNo%>">삭제</a>
-		<a href="<%=request.getContextPath()%>/board/boardList.jsp">목록</a>
+		<div style="float:right;">
+			<a href="<%=request.getContextPath()%>/board/updateBoardForm.jsp?boardNo=<%=boardNo%>&boardWriter=<%=board.boardWriter%>&createdate=<%=board.createdate%>">[ &#9997; 수정 ]&nbsp;</a><!-- 수정 이모지 -->
+			<a href="<%=request.getContextPath()%>/board/deleteBoardForm.jsp?boardNo=<%=boardNo%>">&nbsp;[ &#10060; 삭제 ]&nbsp;</a><!-- 삭제 이모지 -->
+			<a href="<%=request.getContextPath()%>/board/boardList.jsp">&nbsp;[ &#128072; 돌아가기 ]&nbsp;</a><!-- 돌아가기 이모지 -->
+		</div>
+	</div>
 </body>
 </html>

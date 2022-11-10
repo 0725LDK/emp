@@ -1,3 +1,4 @@
+<%@page import="java.util.spi.CurrencyNameProvider"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
@@ -30,7 +31,7 @@
 	//마지막 페이지 구하기
 	//올림을 하게되면 6.3 -> 7 , 5.0->5.0
 	int lastPage =(int) Math.ceil((double)cnt / (double)ROW_PER_PAGE);//새로운 방법
-	System.out.println(lastPage);
+	//System.out.println(lastPage);
 	//한페이지에 보여주는 행
 	String listSql = "SELECT board_no boardNo, board_title boardTitle FROM board ORDER BY board_no ASC LIMIT ?,?";
 	PreparedStatement listStmt = conn.prepareStatement(listSql);
@@ -51,18 +52,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+
+a 
+	{
+  		text-decoration: none;
+	}
+tr,td
+	{
+		text-align: center;
+	}
+.inner-div 
+	{
+	  width : 300px;
+	  height : 30px;
+	  margin: auto;
+	}
+</style>
+
 </head>
 <body>
 	<div>
 		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
 	</div>
-	
-	<h1>자유게시판</h1>
+	<div class="container">
+	<h1>게시판</h1>
 	<!-- 3-1 모델데이터(ArrayList<Board>) 출력 -->
-	<table>
-		<tr>
+	<table class="table table-hover">
+		<tr  class="table-warning">
+			<td>번호</td>
 			<td>제목</td>
-			<td>내용</td>
 		</tr>
 		
 		<%
@@ -82,7 +104,7 @@
 	</table>
 	
 	<!-- 3.2 페이징 -->
-		<div>
+		<div class="inner-div">
 			<a href = "<%=request.getContextPath() %>/board/boardList.jsp?currentPage=1">처음으로</a>
 	
 			<%
@@ -92,10 +114,16 @@
 					<a href = "<%=request.getContextPath() %>/board/boardList.jsp?currentPage=<%=currentPage-1%>">이전</a>
 			<%
 				}
+				else if( currentPage==1)
+				{
+			%>
+					<span>이전</span>
+			<%
+				}
 			
 			%>
 			
-			<span><%=currentPage %></span>
+			<span>[ <%=currentPage %> ]</span>
 			
 			<%
 				if(currentPage < lastPage)
@@ -104,16 +132,22 @@
 					<a href = "<%=request.getContextPath() %>/board/boardList.jsp?currentPage=<%=currentPage+1%>">다음</a>
 			<%
 				}
+				else if(currentPage == lastPage)
+				{
+			%>
+					<span>다음</span>
+			<%	
+				}
 			%>
 			
 			<a href = "<%=request.getContextPath() %>/board/boardList.jsp?currentPage=<%=lastPage%>">마지막으로</a>
 		
 		</div>
 		
-		<div>
-			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp"> 게시글 작성 하기</a>
+		<div style="float:right;">
+			<a href="<%=request.getContextPath()%>/board/insertBoardForm.jsp">&#10133;게시글 작성 하기</a>
 		</div>
 		
-	
+</div>
 </body>
 </html>
