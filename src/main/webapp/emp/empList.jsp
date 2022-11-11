@@ -63,28 +63,33 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 
-<style>
-
-a 
-	{
-  		text-decoration: none;
-	}
-tr,td
-	{
-		text-align: center;
-	}
-.inner-div 
-	{
-	  width : 300px;
-	  height : 30px;
-	  margin: auto;
-	}
-</style>
+	<style>
+	
+		a 
+			{
+		  		text-decoration: none;
+			}
+		tr,td
+			{
+				text-align: center;
+			}
+		.inner-div 
+			{
+			  	width : 300px;
+			 	height : 30px;
+			 	margin: auto;
+			}
+		.center
+			{
+				text-align : center;
+			}
+	</style>
 
 </head>
 <body>
+	
 	<!-- 메뉴 -->
-	<div>
+	<div class="center">
 		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
 	</div>
 	

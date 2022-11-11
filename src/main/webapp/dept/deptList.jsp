@@ -29,31 +29,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>DEPT LIST</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-
-<style>
-
-a 
-	{
-  		text-decoration: none;
-	}
-tr,td
-	{
-		text-align: center;
-	}
-</style>
+	<meta charset="UTF-8">
+	<title>DEPT LIST</title>
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	
+	<style>
+	
+	a 
+		{
+	  		text-decoration: none;
+		}
+	tr,td
+		{
+			text-align: center;
+		}
+	.center
+		{
+			text-align : center;
+		}
+	</style>
 
 </head>
 <body>
 	<!-- 메뉴 -->
-	<div>
+	<div class="center">
 		<jsp:include page="/inc/menu.jsp"></jsp:include><!-- jsp action tag include는 서버입장에서 호출하는것 contextpath 명을 적지 않는다 -->
 	</div>
-	
 	<br>
 	<div class="container">
 	<h1>부서 목록</h1>
