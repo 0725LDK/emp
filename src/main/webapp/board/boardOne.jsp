@@ -4,7 +4,12 @@
 <%@ page import = "vo.*" %>
 <%
 	// 1
-	int boardNo = Integer.parseInt(request.getParameter("boardNo"));	
+	int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null)
+	{
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees","root","java1234");
@@ -24,10 +29,34 @@
 	}
 	
 	//댓글 페이징
+	int rowPerPage = 5;
+	int beginRow = (currentPage-1)*rowPerPage;
+	
+	//2-1 댓글의 전체 행의수 
+	String listCommentSql = "SELECT COUNT(*) cnt FROM comment WHERE board_no =?";//전체 행수쿼리
+	PreparedStatement listCommantStmt = conn.prepareStatement(listCommentSql);
+	listCommantStmt.setInt(1, boardNo);
+	ResultSet listCommantRs = listCommantStmt.executeQuery();
+	int cnt = 0;//전체 행 저장 변수
+	if(listCommantRs.next())
+	{
+		cnt = listCommantRs.getInt("cnt");
+	}
+	//System.out.println(cnt);
+	
+	//2-1 마지막 페이지 구하기
+	int lastPage = cnt/rowPerPage;
+	if(cnt%rowPerPage != 0)
+	{
+		lastPage = lastPage + 1;
+	}
+
 	//2-2 댓글 목록
-	String commentSql = "SELECT comment_no commentNO, board_no boardNo, comment_content commentContent FROM comment WHERE board_no =? ORDER BY comment_no DESC" ;
+	String commentSql = "SELECT comment_no commentNO, board_no boardNo, comment_content commentContent FROM comment WHERE board_no =? ORDER BY comment_no DESC LIMIT ?,?" ;
 	PreparedStatement commentStmt = conn.prepareStatement(commentSql);
 	commentStmt.setInt(1, boardNo);
+	commentStmt.setInt(2, beginRow);
+	commentStmt.setInt(3, rowPerPage);
 	ResultSet commentRs = commentStmt.executeQuery();
 	
 	ArrayList<Comment> commentList = new ArrayList<Comment>();
@@ -38,8 +67,6 @@
 		c.commentContent = commentRs.getString("commentContent");
 		commentList.add(c);
 	}
-	
-	// 3 
 %>
 <!DOCTYPE html>
 <html>
@@ -80,7 +107,6 @@
 	</div>
 	
 	<div class="container">
-	
 		<h1>게시글 상세보기</h1>
 		<table  class="table table-hover">
 			<tr class="table-warning">
@@ -121,12 +147,10 @@
 				<tr>
 					<td class="table-warning">내용</td>
 					<td><textarea rows="3" cols="80" name="commentContent"></textarea></td>
-					
 				</tr>
 				<tr>
 					<td class="table-warning">비밀번호</td>
 					<td><input type="password" name="commentPw"></td>
-					
 				</tr>
 			</table>
 			
@@ -144,8 +168,8 @@
 			<tr class="table-warning">
 				<td>댓글번호</td>
 				<td>댓글내용</td>
+				<td>삭제</td>
 			</tr>
-			
 				<%
 					for(Comment c : commentList)
 					{
@@ -153,13 +177,50 @@
 						<tr>
 							<td><%=c.commentNo %></td>
 							<td><%=c.commentContent %></td>
+							<td><a href="<%=request.getContextPath()%>/board/deleteCommentForm.jsp?commentNo=<%=c.commentNo%>&boardNo=<%=boardNo%>">&#10060;</a></td><!-- 삭제이모지 -->
 						</tr>
 				<%
 					}
 				
 				%>
 		</table>
-	
+	</div>
+	<div class="inner-div">
+		<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage<%=currentPage%>">처음으로</a>
+		
+		<%
+			if(currentPage > 1)
+			{
+		%>
+				<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage<%=currentPage-1%>">이전</a>
+		<%		
+			}
+			else if(currentPage == 1)
+			{
+		%>
+				<span>이전</span>
+		<%		
+			}
+		%>
+				<span>[ <%=currentPage %> ]</span>
+		
+		<%
+			//다음 <--마지막 페이지 필요 <-- 전체 행 수가 필요  
+			if(currentPage < lastPage)
+			{
+		%>		
+				<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage=<%=currentPage+1%>">다음</a>
+		<%		
+			}
+			else if(currentPage == lastPage)
+			{
+		%>
+				<span>다음</span>
+		<%
+			}
+		%>
+		
+		<a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=boardNo%>&currentPage=<%=lastPage%>">마지막으로</a>
 	</div>
 </body>
 </html>
