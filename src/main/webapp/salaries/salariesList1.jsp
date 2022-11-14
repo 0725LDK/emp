@@ -11,18 +11,37 @@
 	{
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	
+	int cnt = 0;
 	int rowPerPage = 10;
-	int beginRow = 0;
+	int lastPage = 0;
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
 	//SELECT s.emp_no empNo, s.salary salary, s.from_date fromDate, s.to_date toDate, e.first_name firstName, e.last_name lastName from salaries s INNER JOIN employees e ON s.emp_no = e.emp_no LIMIT ?, ?
 
+	//총 행수 구하기
+	String cntSql = "SELECT COUNT(*) FROM salaries";
+	PreparedStatement cntStmt = conn.prepareStatement(cntSql);
+	ResultSet cntRs = cntStmt.executeQuery();
+	
+	if(cntRs.next())
+	{
+		cnt = cntRs.getInt("COUNT(*)");
+	}
+	
+	//마지막 페이지
+	lastPage = cnt/rowPerPage;
+	System.out.println(cnt +"cnt");
+	System.out.println(rowPerPage +"rowperpage");
+	System.out.println(lastPage +"lastpage");
+	if(cnt % rowPerPage != 0)
+	{
+		lastPage = lastPage + 1;
+	}
+	
 	String sql = "SELECT s.emp_no empNo, s.salary salary, s.from_date fromDate, s.to_date toDate, e.first_name firstName, e.last_name lastName from salaries s INNER JOIN employees e ON s.emp_no = e.emp_no ORDER BY s.emp_no ASC LIMIT ?, ?";
 	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setInt(1, beginRow);
+	stmt.setInt(1, (currentPage-1)*rowPerPage);
 	stmt.setInt(2, rowPerPage);
-	
 	ResultSet rs = stmt.executeQuery();
 	ArrayList<Salary> salaryList = new ArrayList<>();
 	while(rs.next())
@@ -63,5 +82,12 @@
 			}
 		%>
 	</table>
+	<div>
+		<a href="<%=request.getContextPath()%>/salaries/salariesList1.jsp?currentPage=1">처음으로</a>
+		<a href="<%=request.getContextPath()%>/salaries/salariesList1.jsp?currentPage=<%=currentPage-1%>">이전</a>
+		<span>[ <%=currentPage%> ]</span>
+		<a href="<%=request.getContextPath()%>/salaries/salariesList1.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<a href="<%=request.getContextPath()%>/salaries/salariesList1.jsp?currentPage=<%=lastPage%>">마지막으로</a>
+	</div>
 </body>
 </html>
