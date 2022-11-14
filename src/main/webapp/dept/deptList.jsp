@@ -9,9 +9,11 @@
 	request.setCharacterEncoding("utf-8");
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/employees", "root", "java1234");
+	
 	String sql = "SELECT dept_no deptNo, dept_name deptName FROM departments ORDER BY dept_no DESC";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	ResultSet rs = stmt.executeQuery();//<- 모델데이터로서 ResultSet는 일반적인 타입&독립적인 타입이 아니다.
+	
 	//ResultSet rs라는 모델자료구조를 좀더 일반적이고 독립적인 자료구조로 변경을 하자
 	ArrayList<Department> list = new ArrayList<Department>();
 	while(rs.next())//ResultSet의 API(사용방법)를 모른다면 사용 불가 
